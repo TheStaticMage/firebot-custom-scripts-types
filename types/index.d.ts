@@ -12,6 +12,7 @@ import { EffectManager } from "./modules/effect-manager";
 import { EffectRunner } from "./modules/effect-runner";
 import { Effects } from "./effects";
 import { EventFilterManager } from "./modules/event-filter-manager";
+import { EventFilterFactory } from "./modules/event-filter-factory";
 import { EventManager } from "./modules/event-manager";
 import { FirebotRolesManager } from "./modules/firebot-roles-manager";
 import { FrontendCommunicator } from "./modules/frontend-communicator";
@@ -32,6 +33,7 @@ import { IntegrationManager } from "./modules/integration-manager";
 import { ReplaceVariableFactory } from "./modules/replace-variable-factory";
 import { ParametersConfig } from "./modules/firebot-parameters";
 import { NotificationManager } from "./modules/notification-manager";
+import { UIExtensionManager } from "./modules/ui-extension-manager";
 
 export type UserAccount = {
     username: string;
@@ -67,6 +69,7 @@ export type ScriptModules = {
     effectManager: EffectManager;
     effectRunner: EffectRunner;
     eventFilterManager: EventFilterManager;
+    eventFilterFactory: EventFilterFactory;
     eventManager: EventManager;
     firebotRolesManager: FirebotRolesManager;
     frontendCommunicator: FrontendCommunicator;
@@ -90,6 +93,8 @@ export type ScriptModules = {
     spawn: typeof ChildProcess["spawn"];
     twitchApi: TwitchApi;
     twitchChat: TwitchChat;
+    /** Added in Firebot v5.64 */
+    uiExtensionManager?: UIExtensionManager;
     userDb: UserDb;
     utils: Utils;
     /** Remove the below line after we have all modules defined */

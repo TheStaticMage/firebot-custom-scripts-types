@@ -1,3 +1,5 @@
+import ng from "angular";
+
 interface EffectScope<EffectModel> extends ng.IScope {
     effect: EffectModel;
     [x: string]: unknown;
@@ -20,16 +22,18 @@ type EffectTriggerResponse<Outputs = Record<string, unknown>> = {
 
 export namespace Effects {
     type TriggerType =
-        | "command"
-        | "custom_script"
-        | "startup_script"
         | "api"
+        | "channel_reward"
+        | "command"
+        | "counter"
+        | "custom_script"
         | "event"
         | "hotkey"
-        | "timer"
-        | "counter"
         | "preset"
         | "quick_action"
+        | "scheduled_task"
+        | "startup_script"
+        | "timer"
         | "manual";
 
     type Trigger = {
@@ -77,7 +81,8 @@ export namespace Effects {
         | "firebot:set-user-metadata"
         | "firebot:showImage"
         | "firebot:showtext"
-        | "firebot:update-counter";
+        | "firebot:update-counter"
+        | "firebot:cooldown-command";
 
     type Effect<T = KnownEffectType> = {
         id?: string;
@@ -106,6 +111,10 @@ export namespace Effects {
             ...args: unknown[]
         ) => void;
         optionsValidator?: (effect: EffectModel) => string[];
+        getDefaultLabel?: (
+            effect: EffectModel,
+            ...args: any[]
+        ) => string | undefined | Promise<string | undefined>;
         onTriggerEvent: (event: {
             effect: EffectModel;
             trigger: Trigger;
@@ -113,6 +122,8 @@ export namespace Effects {
                 data: OverlayData,
                 overlayInstance?: string
             ) => void;
+            outputs?: Record<string, unknown>;
+            abortSignal: AbortSignal;
         }) => Promise<void | boolean | EffectTriggerResponse<Outputs>>;
         overlayExtension?: {
             dependencies?: {
