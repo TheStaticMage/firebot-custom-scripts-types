@@ -19,7 +19,6 @@ import { FrontendCommunicator } from "./modules/frontend-communicator";
 import { GameManager } from "./modules/game-manager";
 import { HttpServerManager } from "./modules/http-server-manager";
 import { Logger } from "./modules/logger";
-import { ProfileManager } from "./modules/profile-manager";
 import { QuotesManager } from "./modules/quotes-manager";
 import { ReplaceVariableManager } from "./modules/replace-variable-manager";
 import { ResourceTokenManager } from "./modules/resource-token-manager";
@@ -83,7 +82,6 @@ export type ScriptModules = {
     moment: typeof Moment;
     notificationManager: NotificationManager;
     path: typeof Path;
-    profileManager: ProfileManager;
     quotesManager: QuotesManager;
     replaceVariableManager: ReplaceVariableManager;
     replaceVariableFactory: ReplaceVariableFactory;
