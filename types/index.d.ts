@@ -33,6 +33,7 @@ import { ReplaceVariableFactory } from "./modules/replace-variable-factory";
 import { ParametersConfig } from "./modules/firebot-parameters";
 import { NotificationManager } from "./modules/notification-manager";
 import { UIExtensionManager } from "./modules/ui-extension-manager";
+import { ViewerDatabase } from "./modules/viewer-database";
 
 export type UserAccount = {
     username: string;
@@ -97,6 +98,7 @@ export type ScriptModules = {
     userDb: UserDb;
     utils: Utils;
     /** Remove the below line after we have all modules defined */
+    viewerDatabase: ViewerDatabase;
     [x: string]: unknown;
 };
 
