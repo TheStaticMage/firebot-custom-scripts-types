@@ -6,7 +6,12 @@ export type EventSource = {
         name: string;
         description: string;
         cached?: boolean;
+        cacheMetaKey?: string;
         manualMetadata?: Record<string, unknown>;
+        activityFeed?: {
+            icon: string;
+            getMessage: (eventData: Record<string, unknown>) => string;
+        };
     }>;
 };
 
