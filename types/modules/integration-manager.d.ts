@@ -105,4 +105,5 @@ export type IntegrationManager = {
     ): (IntegrationDefinition & ObjectOfUnknowns) | null;
     integrationIsConnectable(integrationId: string): boolean;
     getAllIntegrationDefinitions(): IntegrationDefinition[];
+    saveIntegrationUserSettings<Params extends FirebotParams>(integrationId: string, settings: Params, merge: boolean): void;
 };

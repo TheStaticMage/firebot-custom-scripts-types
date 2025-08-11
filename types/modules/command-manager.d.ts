@@ -1,5 +1,6 @@
 import { Effects } from "../effects";
 import EffectList = Effects.EffectList;
+import { FirebotChatMessage } from "../chat";
 
 type CommandType = "system" | "custom";
 
@@ -14,7 +15,7 @@ type Cooldown = {
     user: number | undefined;
 };
 
-type RestrictionData = {
+export type RestrictionData = {
     /**
      * Sets the command to only trigger when all/any/none of the restrictions pass.
      */
@@ -36,14 +37,14 @@ export type SubCommand = BasicCommandDefinition & {
 };
 
 export type CommandDefinition = {
-    id: string;
-    name: string;
-    description: string;
+    id?: string;
+    name?: string;
+    description?: string;
     type?: CommandType;
     createdBy?: string;
-    createdAt?: Date;
+    createdAt?: Date | string;
     lastEditBy?: string | undefined;
-    lastEditAt?: Date | undefined;
+    lastEditAt?: Date | string | undefined;
     /**
      * Describes how many times the command has been used in chat.
      */
@@ -52,6 +53,8 @@ export type CommandDefinition = {
     trigger: string;
     triggerIsRegex?: boolean | undefined;
     scanWholeMessage?: boolean | undefined;
+    aliases?: string[];
+    usage?: string;
     /**
      * If the chat message that triggered the command should be deleted automatically.
      */
@@ -64,28 +67,40 @@ export type CommandDefinition = {
      * If the command should be hidden from the `!commands` list.
      */
     hidden?: boolean | undefined;
-    ignoreBot?: boolean | undefined;
     ignoreStreamer?: boolean | undefined;
+    ignoreBot?: boolean | undefined;
+    ignoreWhispers?: boolean | undefined;
     /**
      * If a chat message should be sent when the command is tried to be used but
      * the cooldown is not yet over.
      */
     sendCooldownMessage?: boolean;
+    useCustomCooldownMessage?: boolean;
+    cooldownMessage?: string;
     baseCommandDescription?: string | undefined;
     sortTags?: string[];
     cooldown?: Cooldown | undefined;
     effects?: EffectList;
     restrictionData?: RestrictionData;
-    options?: Record<string, any> | undefined;
     subCommands?: SubCommand[] | undefined;
     fallbackSubcommand?: SubCommand | undefined;
-    aliases?: string[] | undefined;
+    treatQuotedTextAsSingleArg?: boolean | undefined;
+    minArgs?: number;
+    options?: Record<string, any>;
+    /**
+     * Only set for currency system commands.
+     */
+    currency?: {
+        name: string;
+        id: string;
+    };
+    allowTriggerBySharedChat?: boolean | "inherit" | undefined;
 };
 
 type UserCommand = {
     trigger: string;
     args: string[];
-    triggeredSubcmd?: CommandDefinition;
+    triggeredSubcmd?: SubCommand;
     isInvalidSubcommandTrigger: boolean;
     triggeredArg?: string;
     subcommandId?: string;
@@ -97,6 +112,7 @@ type SystemCommandTriggerEvent = {
     command: CommandDefinition;
     commandOptions: Record<string, any>;
     userCommand: UserCommand;
+    chatMessage?: FirebotChatMessage;
 };
 
 type BasicCommandDefinition = Omit<
@@ -115,6 +131,10 @@ export type SystemCommand<CD extends CommandDefinition = CommandDefinition> = {
     onTriggerEvent: (
         event: SystemCommandTriggerEvent
     ) => PromiseLike<void> | void;
+};
+
+export type SystemCommandDefinition = CommandDefinition & {
+    hideCooldowns?: boolean;
 };
 
 type CommandManager = {
@@ -142,7 +162,7 @@ type CommandManager = {
      */
     saveCustomCommand: (
         command: CommandDefinition,
-        user: string,
+        user?: string,
         isNew?: boolean
     ) => void;
     removeCustomCommandByTrigger: (trigger: string) => void;
