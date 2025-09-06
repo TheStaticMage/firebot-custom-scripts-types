@@ -7,6 +7,7 @@ import { CommandManager } from "./modules/command-manager";
 import { CounterManager } from "./modules/counter-manager";
 import { CurrencyDB } from "./modules/currency-db";
 import { CurrencyManager } from "./modules/currency-manager";
+import { CustomRolesManager} from "./modules/custom-roles-manager";
 import { CustomVariableManager } from "./modules/custom-variable-manager";
 import { EffectManager } from "./modules/effect-manager";
 import { EffectRunner } from "./modules/effect-runner";
@@ -65,6 +66,7 @@ export type ScriptModules = {
     counterManager: CounterManager;
     currencyDb: CurrencyDB;
     currencyManager: CurrencyManager;
+    customRolesManager: CustomRolesManager;
     customVariableManager: CustomVariableManager;
     effectManager: EffectManager;
     effectRunner: EffectRunner;
