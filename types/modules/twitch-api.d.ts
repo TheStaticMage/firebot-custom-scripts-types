@@ -2,8 +2,10 @@ import {
     ApiClient,
     HelixChannel,
     HelixChannelUpdate,
+    HelixModerator,
     HelixTeam,
     HelixUser,
+    HelixUserRelation,
     UserIdResolvable,
 } from "@twurple/api";
 
@@ -63,7 +65,7 @@ export type TwitchApi = {
         updateChannelInformation(data: HelixChannelUpdate): Promise<void>;
         raidChannel(targetUserId: string): Promise<boolean>;
         cancelRaid(): Promise<boolean>;
-        getVips(): Promise<string[]>;
+        getVips(): Promise<HelixUserRelation[]>;
     };
     channelRewards: {
         createCustomChannelReward(reward: CustomReward): Promise<CustomReward>;
@@ -80,6 +82,9 @@ export type TwitchApi = {
             redemptionId: string,
             approve?: boolean
         ): Promise<boolean>;
+    };
+    moderation: {
+        getModerators(): Promise<HelixModerator[]>;
     };
     users: {
         doesUserFollowChannel(
