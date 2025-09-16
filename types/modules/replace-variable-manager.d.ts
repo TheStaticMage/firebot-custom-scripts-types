@@ -32,4 +32,5 @@ export type VariableCategory =
 
 export type ReplaceVariableManager = {
     registerReplaceVariable(replaceVariable: ReplaceVariable): void;
+    addEventToVariable(variableHandle: string, eventSourceId: string, eventId: string): void;
 };
