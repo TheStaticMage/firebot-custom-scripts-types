@@ -35,6 +35,9 @@ import { ParametersConfig } from "./modules/firebot-parameters";
 import { NotificationManager } from "./modules/notification-manager";
 import { UIExtensionManager } from "./modules/ui-extension-manager";
 import { ViewerDatabase } from "./modules/viewer-database";
+import { WebhookManager } from "./modules/webhook-manager";
+import { OverlayWidgetConfigManager } from "./modules/overlay-widget-config-manager";
+import { OverlayWidgetsManager } from "./modules/overlay-widgets-manager";
 
 export type UserAccount = {
     username: string;
@@ -56,6 +59,7 @@ export type CustomScriptManifest = {
     author: string;
     website?: string;
     startupOnly?: boolean;
+    initBeforeShowingParams?: boolean;
     firebotVersion?: "5";
 };
 
@@ -85,6 +89,8 @@ export type ScriptModules = {
     moment: typeof Moment;
     notificationManager: NotificationManager;
     path: typeof Path;
+    overlayWidgetConfigManager: OverlayWidgetConfigManager;
+    overlayWidgetsManager: OverlayWidgetsManager;
     quotesManager: QuotesManager;
     replaceVariableManager: ReplaceVariableManager;
     replaceVariableFactory: ReplaceVariableFactory;
@@ -99,8 +105,10 @@ export type ScriptModules = {
     uiExtensionManager?: UIExtensionManager;
     userDb: UserDb;
     utils: Utils;
-    /** Remove the below line after we have all modules defined */
     viewerDatabase: ViewerDatabase;
+    webhookManager: WebhookManager;
+
+    // Remove the below line after we have all modules defined
     [x: string]: unknown;
 };
 
@@ -158,9 +166,10 @@ export namespace Firebot {
         parametersUpdated?(parameters: P): void;
 
         /**
-         * Called when the script is removed from Firebot. Use this to clean up registered effects/connections/etc
+         * Called when the script is stopped in Firebot. Use this to clean up registered effects/connections/etc.
+         * @param uninstalling `true` if the plugin is being uninstalled/deleted from Firebot. Useful when you need to remove persistent data (e.g. webhooks).
          */
-        stop?(): void;
+        stop?(uninstalling?: boolean): void;
     };
 
     type EffectType<EffectModel> = Effects.EffectType<EffectModel>;
