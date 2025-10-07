@@ -8,10 +8,11 @@ export type EventSource = {
         cached?: boolean;
         cacheMetaKey?: string;
         manualMetadata?: Record<string, unknown>;
+        isIntegration?: boolean;
         activityFeed?: {
             icon: string;
             getMessage: (eventData: Record<string, unknown>) => string;
-        };
+        }
     }>;
 };
 

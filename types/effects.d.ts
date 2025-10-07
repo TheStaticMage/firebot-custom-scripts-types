@@ -1,4 +1,5 @@
 import ng from "angular";
+import { Trigger, TriggerType, TriggersObject } from "./triggers";
 
 interface EffectScope<EffectModel> extends ng.IScope {
     effect: EffectModel;
@@ -21,40 +22,6 @@ type EffectTriggerResponse<Outputs = Record<string, unknown>> = {
 };
 
 export namespace Effects {
-    type TriggerType =
-        | "api"
-        | "channel_reward"
-        | "command"
-        | "counter"
-        | "custom_script"
-        | "event"
-        | "hotkey"
-        | "preset"
-        | "quick_action"
-        | "scheduled_task"
-        | "startup_script"
-        | "timer"
-        | "manual";
-
-    type Trigger = {
-        type: TriggerType;
-        metadata: {
-            username: string;
-            hotkey?: any;
-            command?: any;
-            userCommand?: { trigger: string; args: string[] };
-            chatMessage?: any;
-            event?: { id: string; name: string };
-            eventSource?: { id: string; name: string };
-            eventData?: Record<string, unknown>;
-            [x: string]: unknown;
-        };
-    };
-
-    type TriggersObject = {
-        [T in TriggerType]?: T extends "event" ? string[] | boolean : boolean;
-    };
-
     type EffectCategory =
         | "common"
         | "chat based"
@@ -104,6 +71,15 @@ export namespace Effects {
             triggers?: TriggerType[] | TriggersObject;
             dependencies?: Array<"chat">;
             outputs?: EffectOutput<Outputs>[];
+            /**
+             * If true, this effect cannot be aborted via the "Timeout" feature
+             */
+            exemptFromTimeouts?: boolean;
+            /**
+             * Keys of the effect model that should be exempt from having variables replaced in them automatically.
+             * This is useful when you want to run variable replacement manually, or not at all.
+             */
+            keysExemptFromAutoVariableReplacement?: Array<keyof EffectModel>;
         };
         optionsTemplate: string;
         optionsController?: (

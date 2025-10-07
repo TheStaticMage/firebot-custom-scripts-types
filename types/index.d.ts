@@ -38,6 +38,8 @@ import { ViewerDatabase } from "./modules/viewer-database";
 import { WebhookManager } from "./modules/webhook-manager";
 import { OverlayWidgetConfigManager } from "./modules/overlay-widget-config-manager";
 import { OverlayWidgetsManager } from "./modules/overlay-widgets-manager";
+import { Trigger } from "./triggers";
+import { Awaitable } from "./util-types";
 
 export type UserAccount = {
     username: string;
@@ -131,7 +133,7 @@ export type RunRequest<P extends Record<string, unknown>> = {
         settings: FirebotSettings;
         version: string;
     };
-    trigger: Effects.Trigger;
+    trigger: Trigger;
 };
 
 export type ScriptReturnObject = {
@@ -143,9 +145,7 @@ export type ScriptReturnObject = {
 
 export namespace Firebot {
     type CustomScript<P extends Record<string, any> = {}> = {
-        getScriptManifest():
-            | CustomScriptManifest
-            | PromiseLike<CustomScriptManifest>;
+        getScriptManifest(): Awaitable<CustomScriptManifest>;
 
         getDefaultParameters(): ParametersConfig<P>;
 
@@ -154,11 +154,7 @@ export namespace Firebot {
          */
         run(
             runRequest: RunRequest<P>
-        ):
-            | void
-            | PromiseLike<void>
-            | ScriptReturnObject
-            | Promise<ScriptReturnObject>;
+        ): Awaitable<void> | Awaitable<ScriptReturnObject>;
 
         /**
          * Called when the user saves script parameters
