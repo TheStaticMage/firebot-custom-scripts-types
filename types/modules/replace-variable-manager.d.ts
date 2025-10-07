@@ -17,6 +17,7 @@ export type ReplaceVariable = {
         possibleDataOutput: Array<
             "null" | "bool" | "number" | "text" | "array" | "object" | "ALL"
         >;
+        sensitive?: boolean;
         hidden?: boolean;
     };
     evaluator(trigger: Trigger, ...args: any[]): any;
