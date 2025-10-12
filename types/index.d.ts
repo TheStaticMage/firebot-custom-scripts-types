@@ -3,6 +3,7 @@ import * as Path from "path";
 import ChildProcess from "child_process";
 import Moment from "moment";
 import { FirebotSettings } from "./settings";
+import { ChatRolesManager } from "./modules/chat-roles-manager";
 import { CommandManager } from "./modules/command-manager";
 import { CounterManager } from "./modules/counter-manager";
 import { CurrencyDB } from "./modules/currency-db";
@@ -66,6 +67,7 @@ export type CustomScriptManifest = {
 };
 
 export type ScriptModules = {
+    chatRolesManager: ChatRolesManager;
     childProcess: typeof ChildProcess;
     commandManager: CommandManager;
     conditionManager: ConditionManager;
