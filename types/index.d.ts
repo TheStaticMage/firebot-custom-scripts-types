@@ -99,7 +99,6 @@ export type ScriptModules = {
     resourceTokenManager: ResourceTokenManager;
     request: unknown;
     restrictionManager: RestrictionManager;
-    scriptDataDir: string;
     spawn: typeof ChildProcess["spawn"];
     twitchApi: TwitchApi;
     twitchChat: TwitchChat;
@@ -134,6 +133,7 @@ export type RunRequest<P extends Record<string, unknown>> = {
         version: string;
     };
     trigger: Trigger;
+    scriptDataDir: string;
 };
 
 export type ScriptReturnObject = {
