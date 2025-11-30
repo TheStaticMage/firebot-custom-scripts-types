@@ -40,6 +40,7 @@ import { OverlayWidgetConfigManager } from "./modules/overlay-widget-config-mana
 import { OverlayWidgetsManager } from "./modules/overlay-widgets-manager";
 import { Trigger } from "./triggers";
 import { Awaitable } from "./util-types";
+import { CustomChatPanelManager } from "./modules/custom-chat-panel-manager";
 
 export type UserAccount = {
     username: string;
@@ -104,6 +105,8 @@ export type ScriptModules = {
     twitchChat: TwitchChat;
     /** Added in Firebot v5.64 */
     uiExtensionManager?: UIExtensionManager;
+    /** Added in Firebot v5.66 */
+    customChatPanelManager?: CustomChatPanelManager;
     userDb: UserDb;
     utils: Utils;
     viewerDatabase: ViewerDatabase;
