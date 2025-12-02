@@ -9,6 +9,7 @@ type EffectRunnerOutput = {
 type ProcessEffectsRequest = {
     trigger: Trigger;
     effects: any;
+    outputs?: Record<string, any>;
 };
 
 export type EffectRunner = {
