@@ -82,6 +82,7 @@ export type ScriptModules = {
     eventManager: EventManager;
     firebotRolesManager: FirebotRolesManager;
     frontendCommunicator: FrontendCommunicator;
+    /** @deprecated This will be removed in Firebot 5.66. Use node's built-in `fs` modules instead. */
     fs: typeof FS;
     gameManager: GameManager;
     howler: unknown;
@@ -98,10 +99,12 @@ export type ScriptModules = {
     replaceVariableManager: ReplaceVariableManager;
     replaceVariableFactory: ReplaceVariableFactory;
     resourceTokenManager: ResourceTokenManager;
-    request: unknown;
     restrictionManager: RestrictionManager;
     spawn: typeof ChildProcess["spawn"];
     twitchApi: TwitchApi;
+    /**
+     * @deprecated Use the `twitchApi.chat` class instead.
+     */
     twitchChat: TwitchChat;
     /** Added in Firebot v5.64 */
     uiExtensionManager?: UIExtensionManager;

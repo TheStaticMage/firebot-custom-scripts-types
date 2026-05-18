@@ -20,10 +20,16 @@ export type ReplaceVariable = {
         possibleDataOutput: Array<
             "null" | "bool" | "number" | "text" | "array" | "object" | "ALL"
         >;
+        /**
+         * Indicates that the data returned by this variable may be sensitive, so users may not want to display it on-screen or in chat, or write the value to insecure locations (like log files)
+         */
         sensitive?: boolean;
         hidden?: boolean;
     };
-    getSuggestions?: (triggerType: TriggerType, triggerMeta?: TriggerMeta) => Awaitable<VariableUsage[]>;
+    getSuggestions?: (
+        triggerType: TriggerType,
+        triggerMeta?: TriggerMeta
+    ) => Awaitable<VariableUsage[]>;
     evaluator(trigger: Trigger, ...args: any[]): any;
 };
 
@@ -54,7 +60,11 @@ export type ReplaceVariableManager = {
      * @param eventSourceId Event source ID of the event to add.
      * @param eventId Event ID of the event to add.
      */
-    addEventToVariable: (variableHandle: string, eventSourceId: string, eventId: string) => void;
+    addEventToVariable: (
+        variableHandle: string,
+        eventSourceId: string,
+        eventId: string
+    ) => void;
 
     /**
      * Removes an event trigger from an existing Firebot variable.
@@ -62,5 +72,9 @@ export type ReplaceVariableManager = {
      * @param eventSourceId Event source ID of the event to remove.
      * @param eventId Event ID of the event to remove.
      */
-    removeEventFromVariable: (variableHandle: string, eventSourceId: string, eventId: string) => void;
+    removeEventFromVariable: (
+        variableHandle: string,
+        eventSourceId: string,
+        eventId: string
+    ) => void;
 };

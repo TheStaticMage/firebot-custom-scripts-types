@@ -10,7 +10,7 @@ import {
     HelixCheermoteList,
     HelixClip,
     HelixGoal,
-    HelixHypeTrainEvent,
+    HelixHypeTrain,
     HelixModerator,
     HelixPoll,
     HelixPrediction,
@@ -19,6 +19,7 @@ import {
     HelixUser,
     HelixUserEmote,
     HelixUserRelation,
+    HelixVideo,
     UserIdResolvable,
 } from "@twurple/api";
 
@@ -122,7 +123,9 @@ export type TwitchApi = {
         createCustomChannelReward(reward: CustomReward): Promise<CustomReward>;
         updateCustomChannelReward(reward: CustomReward): Promise<boolean>;
         deleteCustomChannelReward(rewardId: string): Promise<boolean>;
-        getOpenChannelRewardRedemptions(): Promise<Record<string, RewardRedemption[]>>;
+        getOpenChannelRewardRedemptions(): Promise<
+            Record<string, RewardRedemption[]>
+        >;
         approveOrRejectChannelRewardRedemption(
             request: RewardRedemptionsApprovalRequest
         ): Promise<boolean>;
@@ -138,9 +141,9 @@ export type TwitchApi = {
         getChannelInformationByUsername(
             username: string
         ): Promise<HelixChannel>;
-        getAdSchedule(): Promise<HelixAdSchedule>
+        getAdSchedule(): Promise<HelixAdSchedule>;
         triggerAdBreak(adLength?: number): Promise<boolean>;
-        snoozeAdBreak(): Promise<boolean>
+        snoozeAdBreak(): Promise<boolean>;
         raidChannel(targetUserId: string): Promise<boolean>;
         cancelRaid(): Promise<boolean>;
         getVips(): Promise<HelixUserRelation[]>;
@@ -150,17 +153,40 @@ export type TwitchApi = {
         getCurrentCharityFundraiserGoal(): Promise<number>;
     };
     chat: {
+        /**
+         * Sends a chat message to the streamer's chat.
+         *
+         * @param message Chat message to send.
+         * @param replyToMessageId The ID of the message this should be replying to. If not replying to a message, use `null`.
+         * @param sendAsBot If the chat message should be sent as the bot or not.
+         * If this is set to `false` or the bot account is not logged in, the chat message will be sent as the streamer.
+         * Default is `false`.
+         * @returns `true` if sending the chat message was successful or `false` if it failed
+         */
+        sendChatMessage(
+            message: string,
+            replyToMessageId?: string,
+            sendAsBot?: boolean
+        ): Promise<boolean>;
+
         getAllChatters(): Promise<HelixChatChatter[]>;
-        sendShoutout(targetUserId: string): Promise<ResultWithError<undefined, string>>;
+        sendShoutout(
+            targetUserId: string
+        ): Promise<ResultWithError<undefined, string>>;
         deleteChatMessage(messageId: string): Promise<boolean>;
         clearChat(): Promise<boolean>;
         setEmoteOnlyMode(enable?: boolean): Promise<boolean>;
-        setFollowerOnlyMode(enable?: boolean, duration?: number): Promise<boolean>;
+        setFollowerOnlyMode(
+            enable?: boolean,
+            duration?: number
+        ): Promise<boolean>;
         setSubscriberOnlyMode(enable?: boolean): Promise<boolean>;
         setSlowMode(enable?: boolean, duration?: number): Promise<boolean>;
         setUniqueMode(enable?: boolean): Promise<boolean>;
         getColorForUser(targetUserId: string): Promise<string>;
-        getAllUserEmotes(account?: "streamer" | "bot"): Promise<HelixUserEmote[]>;
+        getAllUserEmotes(
+            account?: "streamer" | "bot"
+        ): Promise<HelixUserEmote[]>;
     };
     clips: {
         createClip(): Promise<HelixClip>;
@@ -192,7 +218,7 @@ export type TwitchApi = {
         getCurrentChannelGoals(): Promise<HelixGoal[]>;
     };
     hypeTrain: {
-        getRecentHypeTrainEvents(): Promise<HelixHypeTrainEvent[]>;
+        getCurrentHypeTrain(): Promise<HelixHypeTrain>;
     };
     moderation: {
         isUserTimedOut(userId: UserIdResolvable): Promise<boolean>;
@@ -228,12 +254,16 @@ export type TwitchApi = {
         ): Promise<void>;
         lockPrediciton(predictionId: string): Promise<void>;
         cancelPrediction(predictionId: string): Promise<void>;
-        resolvePrediction(predictionId: string, outcomeId: string): Promise<void>
+        resolvePrediction(
+            predictionId: string,
+            outcomeId: string
+        ): Promise<void>;
         getMostRecentPrediction(): Promise<HelixPrediction>;
     };
     streams: {
         createStreamMarker(description?: string): Promise<void>;
         getStreamersCurrentStream(): Promise<HelixStream | null>;
+        getStreamUptime(): Promise<string>;
     };
     subscriptions: {
         getSubscriberCount(): Promise<number>;
@@ -266,11 +296,19 @@ export type TwitchApi = {
         ): Promise<boolean>;
         unblockUser(userId: UserIdResolvable): Promise<boolean>;
     };
+    videos: {
+        /**
+         * Gets the VOD object for the specified stream
+         * @param streamId ID of the stream
+         * @returns A {@linkcode HelixVideo} object representing the VOD
+         */
+        getVodByStreamId(streamId: string): Promise<HelixVideo>;
+    };
     whispers: {
         sendWhisper(
             recipientUserId: UserIdResolvable,
             message: string,
             sendAsBot?: boolean
         ): Promise<boolean>;
-    }
+    };
 };

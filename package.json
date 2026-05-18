@@ -1,12 +1,15 @@
 {
     "name": "@crowbartools/firebot-custom-scripts-types",
-    "version": "5.65.0",
+    "version": "5.65.1",
     "description": "Types for Firebot's Custom Scripts",
+    "repository": {
+        "url": "https://github.com/crowbartools/firebot-custom-scripts-types"
+    },
     "main": "",
     "scripts": {
         "lint": "npm run prettier:check",
-        "prettier:check": "prettier --check '**/*.{json,ts}'",
-        "prettier:format": "prettier --write '**/*.{json,ts}'"
+        "prettier:check": "prettier --check **/*.{json,ts}",
+        "prettier:format": "prettier --write **/*.{json,ts}"
     },
     "author": "ebiggz",
     "contributors": [
@@ -21,8 +24,8 @@
         "prettier": "2.2.1"
     },
     "dependencies": {
-        "@twurple/api": "^7.4.0",
-        "@twurple/auth": "^7.4.0",
+        "@twurple/api": "^8.0.2",
+        "@twurple/auth": "^8.0.2",
         "@types/angular": "^1.8.4",
         "@types/express": "^5.0.3",
         "@types/node": "^22.18.8",

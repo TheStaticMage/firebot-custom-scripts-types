@@ -129,9 +129,7 @@ type BasicCommandDefinition = Omit<
 
 export type SystemCommand<CD extends CommandDefinition = CommandDefinition> = {
     definition: CD;
-    onTriggerEvent: (
-        event: SystemCommandTriggerEvent
-    ) => Awaitable<void>;
+    onTriggerEvent: (event: SystemCommandTriggerEvent) => Awaitable<void>;
 };
 
 export type SystemCommandDefinition = CommandDefinition & {
